@@ -58,6 +58,7 @@ class App extends React.Component {
               <Container>
                 <Alert color="success">
                   <Row xs="1" sm="2" md="4">
+                    {/*Regi helped me write my mapping code so it populated the cards in a grid better.*/}
                     {this.state.articles !== "undefined" &&
                       this.state.articles.length > 0 &&
                       this.state.articles.map((element, key) => (
