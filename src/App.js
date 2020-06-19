@@ -1,7 +1,7 @@
 
 import React from "react";
 import axios from "axios";
-import {Card, CardTitle, CardImg, CardBody, CardHeader, CardFooter, Row, Col, Container} from "reactstrap";
+import {Card, CardTitle, CardImg, CardBody, CardHeader, CardFooter, Row, Col, Container, Alert} from "reactstrap";
 
 class App extends React.Component {
   state = {
@@ -12,7 +12,7 @@ class App extends React.Component {
 
   getArticles() {
     axios.get(
-        "http://newsapi.org/v2/everything?q=bitcoin&from=2020-05-18&sortBy=publishedAt&apiKey=e57857dfa8cb4039ab64e8966ff62c0f"
+        "http://newsapi.org/v2/everything?q=bitcoin&from=2020-05-19&sortBy=publishedAt&apiKey=e57857dfa8cb4039ab64e8966ff62c0f"
       )
       .then(response => {
         return response.data.articles.map(article => ({
@@ -42,11 +42,12 @@ class App extends React.Component {
     
     return (
       <React.Fragment>
-        
+        <Alert color="secondary">
         <div>
           <h1 style={{textAlign: "center"}}>Bitcoin News</h1>
                 <div>
                   <Container>
+                    <Alert color="success">
                     
                   <Row xs="1" sm="2" md="4">
                   
@@ -54,7 +55,7 @@ class App extends React.Component {
                   this.state.articles.map((element,  key) => (
                   <Col>
                   
-                  
+                  <Alert color="primary">
                   <Card>
                   <CardHeader>{element.site} at {element.date}</CardHeader>
                     <CardBody>
@@ -62,17 +63,18 @@ class App extends React.Component {
                     
                     <CardTitle>{element.title}</CardTitle>
                     
-                    <CardImg  src = {element.image} alt="Card image cap"/>
+                    <CardImg src = {element.image} alt=""/>
                     
                     </CardBody>
                     <CardFooter><a href={element.url}>Go to the article</a>
                     </CardFooter>
                   </Card>
+                  </Alert>
                   </Col>
                   ))}
                   
                   </Row>
-                  
+                  </Alert>
                   </Container>
                 </div>
                 
@@ -82,6 +84,7 @@ class App extends React.Component {
          
           
         </div>
+        </Alert>
       </React.Fragment>
     );
           
