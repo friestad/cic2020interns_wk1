@@ -23,7 +23,7 @@ class App extends React.Component {
   getArticles() {
     axios
       .get(
-        "http://newsapi.org/v2/everything?q=bitcoin&from=2020-05-19&sortBy=publishedAt&apiKey=e57857dfa8cb4039ab64e8966ff62c0f"
+        "http://newsapi.org/v2/everything?q=bitcoin&from=2020-05-23&sortBy=publishedAt&apiKey=e57857dfa8cb4039ab64e8966ff62c0f"
       )
       .then((response) => {
         return response.data.articles.map((article) => ({
