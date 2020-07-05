@@ -10,7 +10,9 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "reactstrap": "^8.4.1"
+    "reactstrap": "^8.4.1",
+    "express": "^4.17.1",
+    "request": "^2.88.2"
   },
   "scripts": {
     "start": "react-scripts start",

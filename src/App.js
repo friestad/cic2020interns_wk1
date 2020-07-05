@@ -6,7 +6,7 @@ import {
   CardImg,
   CardBody,
   CardHeader,
-  CardFooter,
+  CardText,
   Row,
   Col,
   Container,
@@ -15,37 +15,37 @@ import {
 
 class App extends React.Component {
   state = {
-    articles: [],
+    Countries: [],
     isLoading: true,
     errors: null,
   };
 
-  getArticles() {
+  getCountries() {
     axios
       .get(
-        "http://newsapi.org/v2/everything?q=bitcoin&from=2020-05-23&sortBy=publishedAt&apiKey=e57857dfa8cb4039ab64e8966ff62c0f"
+        "http://localhost:8080/api/v1/summary"
       )
       .then((response) => {
-        return response.data.articles.map((article) => ({
-          date: `${article.publishedAt}`,
-          title: `${article.title}`,
-          url: `${article.url}`,
-          site: `${article.source.name}`,
-          image: `${article.urlToImage}`,
+        return response.data.Countries.map((country) => ({
+          name: `${country.Country}`,
+          totalConfirmed: `${country.TotalConfirmed}`,
+          totalDeaths: `${country.TotalDeaths}`,
+          totalRecovered: `${country.TotalRecovered}`,
+          date: `${country.Date}`
         }));
       })
-      .then((articles) => {
+      .then((Countries) => {
         this.setState({
-          articles,
+          Countries,
           isLoading: false,
         });
-        console.log(this.state.articles);
+        console.log(this.state.Countries);
       })
       .catch((error) => this.setState({ error, isLoading: false }));
   }
 
   componentDidMount() {
-    this.getArticles();
+    this.getCountries();
   }
 
   render() {
@@ -53,29 +53,27 @@ class App extends React.Component {
       <React.Fragment>
         <Alert color="secondary">
           <div>
-            <h1 style={{ textAlign: "center" }}>Bitcoin News</h1>
             <div>
               <Container>
                 <Alert color="success">
                   <Row xs="1" sm="2" md="4">
                     {/*Regi helped me write my mapping code so it populated the cards in a grid better.*/}
-                    {this.state.articles !== "undefined" &&
-                      this.state.articles.length > 0 &&
-                      this.state.articles.map((element, key) => (
+                    {this.state.Countries !== "undefined" &&
+                      this.state.Countries.length > 0 &&
+                      this.state.Countries.map((element, key) => (
                         <Col>
                           <Alert color="primary">
                             <Card>
                               <CardHeader>
-                                {element.site} at {element.date}
+                                {element.name} at {element.date}
                               </CardHeader>
                               <CardBody>
-                                <CardTitle>{element.title}</CardTitle>
-
-                                <CardImg src={element.image} alt="" />
+                              <CardText>{element.totalConfirmed}</CardText>
+                              <CardText>{element.totalDeaths}</CardText>
+                              <CardText>{element.totalRecovered}</CardText>
                               </CardBody>
-                              <CardFooter>
-                                <a href={element.url}>Go to the article</a>
-                              </CardFooter>
+                              
+                              
                             </Card>
                           </Alert>
                         </Col>
