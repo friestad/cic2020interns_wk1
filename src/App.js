@@ -1,17 +1,6 @@
 import React from "react";
 import axios from "axios";
-import {
-  Card,
-  CardTitle,
-  CardImg,
-  CardBody,
-  CardHeader,
-  CardText,
-  Row,
-  Col,
-  Container,
-  Alert,
-} from "reactstrap";
+import { Toast, ToastBody, ToastHeader, Alert } from "reactstrap";
 
 class App extends React.Component {
   state = {
@@ -22,16 +11,17 @@ class App extends React.Component {
 
   getCountries() {
     axios
-      .get(
-        "http://localhost:8080/api/v1/summary"
-      )
+      .post("http://localhost:8080/api/v1/comparison", {
+        countryCodes: ["BR", "US", "CA"],
+        compareBy: "TotalRecovered",
+      })
       .then((response) => {
         return response.data.Countries.map((country) => ({
           name: `${country.Country}`,
           totalConfirmed: `${country.TotalConfirmed}`,
           totalDeaths: `${country.TotalDeaths}`,
           totalRecovered: `${country.TotalRecovered}`,
-          date: `${country.Date}`
+          date: `${country.Date}`,
         }));
       })
       .then((Countries) => {
@@ -50,41 +40,23 @@ class App extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <Alert color="secondary">
-          <div>
-            <div>
-              <Container>
-                <Alert color="success">
-                  <Row xs="1" sm="2" md="4">
-                    {/*Regi helped me write my mapping code so it populated the cards in a grid better.*/}
-                    {this.state.Countries !== "undefined" &&
-                      this.state.Countries.length > 0 &&
-                      this.state.Countries.map((element, key) => (
-                        <Col>
-                          <Alert color="primary">
-                            <Card>
-                              <CardHeader>
-                                {element.name} at {element.date}
-                              </CardHeader>
-                              <CardBody>
-                              <CardText>{element.totalConfirmed}</CardText>
-                              <CardText>{element.totalDeaths}</CardText>
-                              <CardText>{element.totalRecovered}</CardText>
-                              </CardBody>
-                              
-                              
-                            </Card>
-                          </Alert>
-                        </Col>
-                      ))}
-                  </Row>
-                </Alert>
-              </Container>
-            </div>
-          </div>
-        </Alert>
-      </React.Fragment>
+      <Toast>
+        <div>
+          {this.state.Countries !== "undefined" &&
+            this.state.Countries.length > 0 &&
+            this.state.Countries.map((element, key) => (
+              <div className="p-3 bg-white my-2 rounded">
+                <ToastHeader>{element.name}</ToastHeader>
+
+                <ToastBody>
+                  <div>Total Confirmed: {element.totalConfirmed}</div>
+                  <div>Total Deaths: {element.totalDeaths}</div>
+                  Total Recovered: {element.totalRecovered}
+                </ToastBody>
+              </div>
+            ))}
+        </div>
+      </Toast>
     );
   }
 }
